@@ -1,1 +1,37 @@
 class：遍历是排序的一种特殊情况。
+
+
+	【数据结构A】的遍历，通常可以借助另一种【数据结构B】。【数据结构B】可以是结果，也可以是过渡结构。
+	需要注意，元素在存取到【数据结构B】中时，需要注意【元素一次存取】。即，若B时结果，则A存入B时，
+	A的每个元素只存入操作一次；若B是过渡时，则A的每个元素只存入和取出操作各一次。
+	
+	
+	典型错误例子：
+		public static void LDRTraverse(TreeNode root) {
+		Stack<TreeNode> stack = new Stack<>();
+		stack.push(root);
+
+		while (!stack.isEmpty()) {
+			TreeNode node = stack.peek();	//(1)症结
+			if (node.left != null) {
+				stack.push(node.left);
+				continue;
+			}
+			
+			System.out.println(node.val);
+			
+			if (node.right != null) {
+				stack.push(node.right);
+			}
+		}
+		
+	解析：问题的症结就在于 stack.peek()，既不存入也不取出，看似符合【元素一次存取】，
+	结果仍是报错栈溢出。因此，当【左子节点】遍历完后（假设遍历不报错），返回【父节点】
+	但是，【父节点】再次判断是否有【左子节点】，又做了多余的遍历 ... 知道栈溢出。
+	
+	
+	总结：【元素一次存取】的关键，不在于字面的存取，而是通过【元素一次存取】，保证一旦
+	访问元素后，即视为已遍历（之后无需再次遍历）。通过其他元素来确定元素是否被访问过于
+	冗余，若是在元素上标记，则可能破坏元素本身。因此【元素一次存取】，是保证元素不会被
+	重复遍历的号方法。
+		
