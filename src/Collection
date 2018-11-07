@@ -1,0 +1,5 @@
+Stack：
+1、Stack堆栈没有迭代器
+2、作未LIFO（先进后出）堆栈时，应优先使用Deque接口，而不是Stack类。
+
+容器和迭代器：fail-fast原理
